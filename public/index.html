@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TCG Proxy Generator</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='6' width='15' height='21' rx='2' fill='%2393b4ff'/%3E%3Crect x='12' y='3' width='15' height='21' rx='2' fill='%232563eb'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>TCG Proxy Generator</h1>
+      <p>カード画像をA4用紙に並べて、プロキシカード印刷用のPDFを作成します</p>
+    </header>
+
+    <main class="app">
+      <div class="sidebar">
+        <section class="panel">
+          <h2><span class="step">1</span>カードを追加</h2>
+          <label class="field-label" for="url-input">画像URL（1行に1つ）</label>
+          <textarea id="url-input" rows="5" spellcheck="false" placeholder="https://example.com/card1.jpg&#10;https://example.com/card2.png 4"></textarea>
+          <p class="hint">URLの後ろに数字を書くと、その枚数で追加します（例: <code>…/card.jpg 4</code>）</p>
+          <div class="row">
+            <button type="button" id="add-urls" class="button">URLを追加</button>
+            <span class="hint">⌘ / Ctrl + Enter</span>
+          </div>
+          <p id="url-message" class="message" role="status"></p>
+          <label class="dropzone" id="dropzone">
+            <input type="file" id="file-input" accept="image/*" multiple hidden>
+            画像ファイルをここにドロップ<br><span class="link">またはファイルを選択</span>
+          </label>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2><span class="step">2</span>カード一覧</h2>
+            <span id="summary" class="summary"></span>
+          </div>
+          <p id="list-empty" class="empty">まだカードがありません</p>
+          <ul id="card-list" class="card-list"></ul>
+          <p id="list-note" class="message"></p>
+          <button type="button" id="clear-all" class="button ghost small" hidden>すべて削除</button>
+        </section>
+
+        <section class="panel">
+          <h2><span class="step">3</span>印刷設定</h2>
+          <form id="settings" class="settings" autocomplete="off">
+            <label class="field">
+              <span class="field-label">カードサイズ</span>
+              <select id="preset">
+                <option value="standard">ポケモンカード・MTG など（63×88mm）</option>
+                <option value="japanese">遊戯王（59×86mm）</option>
+                <option value="custom">カスタム</option>
+              </select>
+            </label>
+            <div class="grid2">
+              <label class="field">
+                <span class="field-label">幅</span>
+                <span class="unit-input"><input type="number" id="card-width" min="20" max="200" step="0.1"><span>mm</span></span>
+              </label>
+              <label class="field">
+                <span class="field-label">高さ</span>
+                <span class="unit-input"><input type="number" id="card-height" min="20" max="280" step="0.1"><span>mm</span></span>
+              </label>
+            </div>
+            <label class="field">
+              <span class="field-label">倍率</span>
+              <span class="unit-input"><input type="number" id="scale" min="50" max="150" step="0.1"><span>%</span></span>
+              <span class="hint">印刷したカードが実寸とずれる場合に調整します</span>
+            </label>
+            <label class="field">
+              <span class="field-label">画像の合わせ方</span>
+              <select id="fit">
+                <option value="stretch">カードサイズに合わせて伸縮する</option>
+                <option value="cover">縦横比を保ち、はみ出た部分を切り取る</option>
+                <option value="contain">縦横比を保ち、余白を付けて収める</option>
+              </select>
+            </label>
+            <label class="check">
+              <input type="checkbox" id="trim-marks">
+              トンボ（切り取り位置の目印）を付ける
+            </label>
+          </form>
+          <p id="layout-info" class="layout-info"></p>
+        </section>
+
+        <div class="actions">
+          <button type="button" id="generate" class="button primary" disabled>PDFを作成</button>
+          <p id="status" class="message" role="status"></p>
+          <p class="hint">印刷するときは、倍率を「100%」または「実際のサイズ」にしてください。</p>
+        </div>
+      </div>
+
+      <section class="preview" aria-label="印刷プレビュー">
+        <p id="preview-empty" class="preview-empty">カードを追加すると、ここに印刷イメージが表示されます</p>
+        <div id="pages" class="pages"></div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "tcg-proxy-generator",
+  "version": "1.0.0",
+  "description": "カード画像をA4に並べて、プロキシカード印刷用のPDFを作成するブラウザアプリ",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -3,16 +3,32 @@
 カード画像をA4用紙に並べて、プロキシカード印刷用のPDFを作成するブラウザアプリです。
 Node.js だけで動き、`npm install` は不要です。
 
+![画面のスクリーンショット](docs/screenshot.png)
+
+<sub>※ スクリーンショットのカードは説明用のサンプル画像です。</sub>
+
+## サーバーの起動と停止
+
+必要なもの: Node.js 20 以上（`node --version` で確認できます）
+
+```bash
+git clone https://github.com/rsuet/tcg-proxy-generator.git
+cd tcg-proxy-generator
+node server.js
+```
+
+`npm start` でも起動できます。ターミナルに `TCG Proxy Generator: http://localhost:3000` と表示されたら起動完了です。
+停止するときは、ターミナルで `Ctrl + C` を押します。
+
+ポート 3000 が使用中の場合は、別のポートを指定して起動します。
+
+```bash
+PORT=3001 node server.js
+```
+
 ## 使い方
 
-1. サーバーを起動する
-
-   ```bash
-   node server.js
-   ```
-
-   ポートを変える場合は `PORT=3001 node server.js` のように指定します。
-
+1. 上の手順でサーバーを起動する
 2. ブラウザで <http://localhost:3000> を開く
 3. カードを追加する
    - 画像URLを1行に1つずつ貼り付けて「URLを追加」を押す

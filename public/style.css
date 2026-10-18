@@ -202,17 +202,21 @@ select:focus {
 }
 
 .button.primary {
-  width: 100%;
-  padding: 10px 14px;
   border-color: var(--accent);
   background: var(--accent);
   color: #fff;
-  font-size: 15px;
 }
 
 .button.primary:hover:not(:disabled) {
+  border-color: var(--accent-hover);
   background: var(--accent-hover);
   color: #fff;
+}
+
+.button.large {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 15px;
 }
 
 .button.ghost {
